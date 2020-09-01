@@ -83,10 +83,17 @@ app.post('/kontrolSiparisNo', (req, res) => {
     })
 })
 
-app.get('/veriler', (req, res) => {
+app.get('/siparisler', (req, res) => {
     Siparis.find()
         .then(siparis => {
             return res.json({"siparisler":siparis});
+        })
+})
+
+app.get('/tempSiparisler', (req, res) => {
+    tempSiparis.find()
+        .then(tempSiparis => {
+            return res.json({"tempSiparisler":tempSiparis});
         })
 })
 
