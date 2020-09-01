@@ -83,7 +83,8 @@ const tempSiparisSchema = new Schema({
     },
     aciklamalar: {
         type: String
-    }
+    },
+    durum: "Yeni Kayıt"
 },{
     timestamps: true
 })
