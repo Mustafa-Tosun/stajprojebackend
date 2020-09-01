@@ -41,6 +41,39 @@ app.post('/siparis', (req, res) => {
     .catch(err => console.log(err));
 })
 
+const tempSiparis = require('./database/models/tempSiparis');
+app.post('/tempSiparis', (req, res) => {
+    const yeniSiparis = new tempSiparis({
+        adSoyad: req.body.adSoyad,
+        siparisNo: req.body.siparisNo,
+        siparisDetayNo: req.body.siparisDetayNo,
+        urun: req.body.urun,
+        urunAciklama: req.body.urunAciklama,
+        teslimSekli: req.body.teslimSekli,
+        paketleme: req.body.paketleme,
+        miktar: req.body.miktar,
+        olcuBirimi: req.body.olcuBirimi,
+        paraBirimi: req.body.paraBirimi,
+        sevkiyatBaslangic: req.body.sevkiyatBaslangic,
+        sevkiyatBitis: req.body.sevkiyatBitis,
+        odemeTuru: req.body.odemeTuru,
+        tasimaSekli: req.body.teslimSekli,
+        sektor: req.body.sektor,
+        odemeBilgisi: req.body.odemeBilgisi,
+        dokumanTuru: req.body.dokumanTuru,
+        kopyaAdedi: req.body.kopyaAdedi,
+        aciklama: req.body.aciklama,
+        faturaFirmasi: req.body.faturaFirmasi,
+        aliciFirma: req.body.aliciFirma,
+        aciklamalar: req.body.aciklamalar 
+    })
+    yeniSiparis.save()
+    .then(() => {
+        res.status(201).json({message:'Geçici sipariş kaydedildi.'});
+    })
+    .catch(err => console.log(err));
+})
+
 app.post('/kontrolSiparisNo', (req, res) => {
     Siparis.findOne({'siparisNo': req.body.siparisNo}, function(err,result){
         if(result){

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const siparisSchema = new Schema({
+const tempSiparisSchema = new Schema({
     adSoyad: {
         type: String,
         required: true,
@@ -88,6 +88,6 @@ const siparisSchema = new Schema({
 
 })
 
-const Siparis = mongoose.model('Siparis', siparisSchema, 'Siparisler');
+const tempSiparis = mongoose.model('tempSiparis', tempSiparisSchema, 'tempSiparisler');
 
-module.exports = Siparis;
+module.exports = tempSiparis;
