@@ -31,7 +31,8 @@ app.post('/siparis', (req, res) => {
         aciklama: req.body.aciklama,
         faturaFirmasi: req.body.faturaFirmasi,
         aliciFirma: req.body.aliciFirma,
-        aciklamalar: req.body.aciklamalar 
+        aciklamalar: req.body.aciklamalar,
+        durum: "Yeni Kayıt"
     })
     yeniSiparis.save()
     .then(() => {
@@ -64,7 +65,8 @@ app.post('/tempSiparis', (req, res) => {
         aciklama: req.body.aciklama,
         faturaFirmasi: req.body.faturaFirmasi,
         aliciFirma: req.body.aliciFirma,
-        aciklamalar: req.body.aciklamalar 
+        aciklamalar: req.body.aciklamalar,
+        durum: "Yeni Kayıt"
     })
     yeniSiparis.save()
     .then(() => {
