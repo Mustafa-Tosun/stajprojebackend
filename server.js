@@ -13,8 +13,6 @@ const Siparis = require('./database/models/siparis');
 app.post('/siparis', (req, res) => {
     const yeniSiparis = new Siparis({
         adSoyad: req.body.adSoyad,
-        siparisNo: req.body.siparisNo,
-        siparisDetayNo: req.body.siparisDetayNo,
         urun: req.body.urun,
         urunAciklama: req.body.urunAciklama,
         teslimSekli: req.body.teslimSekli,

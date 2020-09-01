@@ -8,12 +8,12 @@ const siparisSchema = new Schema({
     },
     siparisNo: {
         type: Number,
-        required: true
+        //required: true
     },
     siparisDetayNo: {
         type: Number,
         unique: true,
-        required: true
+        //required: true
     },
     urun: {
         type: String,
@@ -84,8 +84,6 @@ const siparisSchema = new Schema({
     aciklamalar: {
         type: String
     }
-
-
 })
 
 const Siparis = mongoose.model('Siparis', siparisSchema, 'Siparisler');
