@@ -62,7 +62,7 @@ const tempSiparisSchema = new Schema({
         required: true
     },
     odemeBilgisi: {
-        type: Boolean
+        type: String
     },
     dokumanTuru: {
         type: String
