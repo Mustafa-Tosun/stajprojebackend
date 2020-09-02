@@ -32,7 +32,9 @@ app.post('/siparis', (req, res) => {
         faturaFirmasi: req.body.faturaFirmasi,
         aliciFirma: req.body.aliciFirma,
         aciklamalar: req.body.aciklamalar,
-        durum: "Yeni Kayıt"
+        durum: "Yeni Kayıt",
+        siparisNo: 22,
+        siparisDetayNo: 22
     })
     yeniSiparis.save()
     .then(() => {
@@ -45,8 +47,6 @@ const tempSiparis = require('./database/models/tempSiparis');
 app.post('/tempSiparis', (req, res) => {
     const yeniSiparis = new tempSiparis({
         adSoyad: req.body.adSoyad,
-        siparisNo: req.body.siparisNo,
-        siparisDetayNo: req.body.siparisDetayNo,
         urun: req.body.urun,
         urunAciklama: req.body.urunAciklama,
         teslimSekli: req.body.teslimSekli,
