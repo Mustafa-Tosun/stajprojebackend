@@ -32,7 +32,8 @@ app.post('/siparis', (req, res) => {
         faturaFirmasi: req.body.faturaFirmasi,
         aliciFirma: req.body.aliciFirma,
         aciklamalar: req.body.aciklamalar,
-        durum: "Yeni Kayıt"
+        durum: "Yeni Kayıt",
+        siparisNo: req.body.siparisNo
     })
     yeniSiparis.save()
     .then(() => {

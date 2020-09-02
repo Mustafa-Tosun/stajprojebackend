@@ -98,23 +98,12 @@ siparisSchema.statics.findMaxsiparisDetayNo = async function () {
     return parseInt(biggestsiparisDetayNo, 10);
 };
 
-
-siparisSchema.statics.findMaxsiparisNo = async function () {
-    const found = await this.find({}).sort({ siparisNo: -1 }).limit(1);
-
-    const biggestsiparisNo = found[0].toObject().siparisNo;
-    return parseInt(biggestsiparisNo, 10);
-};
-
-
 siparisSchema.pre("save", async function (next) {
     const doc = this;
 
     //find the biggest
     const biggestsiparisDetayNo = await Siparis.findMaxsiparisDetayNo();
-    const biggestsiparisNo = await Siparis.findMaxsiparisNo();
 
-    doc.siparisNo = biggestsiparisNo + 1;
     doc.siparisDetayNo = biggestsiparisDetayNo + 1;
 
     next();
