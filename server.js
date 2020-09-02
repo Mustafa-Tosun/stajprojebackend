@@ -42,6 +42,46 @@ app.post('/siparis', (req, res) => {
     .catch(err => console.log(err));
 })
 
+app.post('/cokluSiparis', (req, res) => {
+    console.log("cokluSiparis");
+    //const yeniSiparisler = [];
+    //console.log(req.body.length);
+    for(i=0 ; i<req.body.length ; i++){
+        console.log(req.body[i].adSoyad);
+        const yeniSiparis = new Siparis({
+            adSoyad: req.body[i].adSoyad,
+            urun: req.body[i].urun,
+            urunAciklama: req.body[i].urunAciklama,
+            teslimSekli: req.body[i].teslimSekli,
+            paketleme: req.body[i].paketleme,
+            miktar: req.body[i].miktar,
+            olcuBirimi: req.body[i].olcuBirimi,
+            paraBirimi: req.body[i].paraBirimi,
+            sevkiyatBaslangic: req.body[i].sevkiyatBaslangic,
+            sevkiyatBitis: req.body[i].sevkiyatBitis,
+            odemeTuru: req.body[i].odemeTuru,
+            tasimaSekli: req.body[i].teslimSekli,
+            sektor: req.body[i].sektor,
+            odemeBilgisi: req.body[i].odemeBilgisi,
+            dokumanTuru: req.body[i].dokumanTuru,
+            kopyaAdedi: req.body[i].kopyaAdedi,
+            aciklama: req.body[i].aciklama,
+            faturaFirmasi: req.body[i].faturaFirmasi,
+            aliciFirma: req.body[i].aliciFirma,
+            aciklamalar: req.body[i].aciklamalar,
+            durum: "Yeni Kayıt",
+            siparisNo: req.body[i].siparisNo,
+            siparisDetayNo: req.body[i].siparisDetayNo
+        })
+        yeniSiparis.save()
+        .then(() => {
+            
+        })
+        .catch(err => console.log(err));
+    }
+    res.status(201).json({message:'Sipariş kaydedildi.'});
+})
+
 const tempSiparis = require('./database/models/tempSiparis');
 app.post('/tempSiparis', (req, res) => {
     const yeniSiparis = new tempSiparis({
@@ -83,6 +123,14 @@ app.post('/kontrolSiparisNo', (req, res) => {
     })
 })
 
+app.get('/siparisDon/:index', (req, res) => {
+    Siparis.find({})
+        .then(siparis => {
+            return  res.status(200)(siparis[req.params.index])
+            //console.log(siparis[req.params.index]);
+        })
+})
+
 app.get('/siparisler', (req, res) => {
     Siparis.find()
         .then(siparis => {
@@ -96,6 +144,14 @@ app.get('/enBuyukSiparisNo', async (req, res) => {
     var temp = parseInt(biggestsiparisNo, 10);
     return res.json({enBuyukSiparisNo: temp});
 })
+
+app.get('/enBuyukSiparisDetayNo', async (req, res) => {
+    const found = await Siparis.find({}).sort({ siparisDetayNo: -1 }).limit(1);
+    const biggestsiparisDetayNo = found[0].toObject().siparisDetayNo;
+    var temp = parseInt(biggestsiparisDetayNo, 10);
+    return res.json({enBuyukSiparisDetayNo: temp});
+})
+
 
 
 app.get('/tempSiparisler', (req, res) => {
