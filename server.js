@@ -89,6 +89,13 @@ app.get('/siparisler', (req, res) => {
         })
 })
 
+app.get('/enBuyukSiparisNo', (req, res) => {
+    const found = await Siparis.find({}).sort({ siparisNo: -1 }).limit(1);
+    const biggestsiparisNo = found[0].toObject().siparisNo;
+    return parseInt(biggestsiparisNo, 10);
+})
+
+
 app.get('/tempSiparisler', (req, res) => {
     tempSiparis.find()
         .then(tempSiparis => {
