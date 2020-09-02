@@ -126,7 +126,7 @@ app.post('/kontrolSiparisNo', (req, res) => {
 app.get('/siparisDon/:index', (req, res) => {
     Siparis.find({})
         .then(siparis => {
-            return  res.status(200).json({"siparis": siparis[req.params.index]});
+            return  res.status(200).json(siparis[req.params.index]);
             //console.log(siparis[req.params.index]);
         })
 })
