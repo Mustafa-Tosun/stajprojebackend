@@ -83,7 +83,12 @@ const siparisSchema = new Schema({
     },
     aciklamalar: {
         type: String
+    },
+    durum: {
+        type: String
     }
+},{
+    timestamps: true
 })
 
 siparisSchema.statics.findMaxsiparisDetayNo = async function () {
