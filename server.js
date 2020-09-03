@@ -7,8 +7,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
 const Siparis = require('./database/models/siparis');
 app.post('/siparis', async (req, res) => {
     var siparisDetayNo = await getEnBuyukSiparisDetayNo();
@@ -43,6 +41,55 @@ app.post('/siparis', async (req, res) => {
         res.status(201).json({message:'Sipariş kaydedildi.'});
     })
     .catch(err => console.log(err));
+})
+
+app.delete('/siparisSil/:siparisDetayNo', (req, res) => {
+    var sDetayNo = parseInt(req.params.siparisDetayNo);
+    Siparis.findOneAndDelete({siparisDetayNo: {$gte:sDetayNo} }, function (err, docs) { 
+        if (err){ 
+            console.log(err);
+            return res.status(500).json({message:'HATA: Sipariş Silinemedi!'});
+        } 
+        else{ 
+            console.log("Silinen Sipariş: ", docs);
+            return res.status(200).json({message:'Sipariş Silindi.'});
+        } 
+    }); 
+})
+
+app.put('/siparisDuzenle/:siparisDetayNo', (req, res) => {
+    var sDetayNo = parseInt(req.params.siparisDetayNo);
+    Siparis.findOneAndUpdate({siparisDetayNo: sDetayNo },{"$set": {
+        adSoyad: req.body.adSoyad,
+        urun: req.body.urun,
+        urunAciklama: req.body.urunAciklama,
+        teslimSekli: req.body.teslimSekli,
+        paketleme: req.body.paketleme,
+        miktar: req.body.miktar,
+        olcuBirimi: req.body.olcuBirimi,
+        paraBirimi: req.body.paraBirimi,
+        sevkiyatBaslangic: req.body.sevkiyatBaslangic,
+        sevkiyatBitis: req.body.sevkiyatBitis,
+        odemeTuru: req.body.odemeTuru,
+        tasimaSekli: req.body.tasimaSekli,
+        sektor: req.body.sektor,
+        odemeBilgisi: req.body.odemeBilgisi,
+        dokumanTuru: req.body.dokumanTuru,
+        kopyaAdedi: req.body.kopyaAdedi,
+        aciklama: req.body.aciklama,
+        faturaFirmasi: req.body.faturaFirmasi,
+        aliciFirma: req.body.aliciFirma,
+        aciklamalar: req.body.aciklamalar
+        }}).exec(function (err, docs) { 
+        if (err){ 
+            console.log(err);
+            return res.status(500).json({message:'HATA: Sipariş Düzenlenemedi!'});
+        } 
+        else{ 
+            console.log("Düzenlenen Sipariş: ", docs);
+            return res.status(200).json({message:'Sipariş Düzenlendi.'});
+        } 
+    }); 
 })
 
 app.post('/cokluSiparis', async (req, res) => {
@@ -83,38 +130,6 @@ app.post('/cokluSiparis', async (req, res) => {
         siparisDetayNo++;
     }
     res.status(201).json({message:'Sipariş kaydedildi.'});
-})
-
-const tempSiparis = require('./database/models/tempSiparis');
-app.post('/tempSiparis', (req, res) => {
-    const yeniSiparis = new tempSiparis({
-        adSoyad: req.body.adSoyad,
-        urun: req.body.urun,
-        urunAciklama: req.body.urunAciklama,
-        teslimSekli: req.body.teslimSekli,
-        paketleme: req.body.paketleme,
-        miktar: req.body.miktar,
-        olcuBirimi: req.body.olcuBirimi,
-        paraBirimi: req.body.paraBirimi,
-        sevkiyatBaslangic: req.body.sevkiyatBaslangic,
-        sevkiyatBitis: req.body.sevkiyatBitis,
-        odemeTuru: req.body.odemeTuru,
-        tasimaSekli: req.body.teslimSekli,
-        sektor: req.body.sektor,
-        odemeBilgisi: req.body.odemeBilgisi,
-        dokumanTuru: req.body.dokumanTuru,
-        kopyaAdedi: req.body.kopyaAdedi,
-        aciklama: req.body.aciklama,
-        faturaFirmasi: req.body.faturaFirmasi,
-        aliciFirma: req.body.aliciFirma,
-        aciklamalar: req.body.aciklamalar,
-        durum: "Yeni Kayıt"
-    })
-    yeniSiparis.save()
-    .then(() => {
-        res.status(201).json({message:'Geçici sipariş kaydedildi.'});
-    })
-    .catch(err => console.log(err));
 })
 
 app.post('/kontrolSiparisNo', (req, res) => {
@@ -163,14 +178,6 @@ async function getEnBuyukSiparisDetayNo(){
     console.log(temp);
     return temp;
 }
-
-
-app.get('/tempSiparisler', (req, res) => {
-    tempSiparis.find()
-        .then(tempSiparis => {
-            return res.json({"tempSiparisler":tempSiparis});
-        })
-})
 
 app.get('/index', (req, res) => {
     return res.status(201).json({message: 'index.'});
