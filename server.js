@@ -47,35 +47,36 @@ app.post('/cokluSiparis', (req, res) => {
     console.log("cokluSiparis");
     //const yeniSiparisler = [];
     //console.log(req.body.length);
-    var siparisDetayNo = (req.body[0].siparisDetayNo);
-    for(i=0 ; i<req.body.length ; i++){
-        console.log(req.body[i].adSoyad);
+    console.log(req.body);
+    var siparisDetayNo = (req.body.siparisler[0].siparisDetayNo);
+    for(i=0 ; i<req.body.siparisler.length ; i++){
+        console.log(req.body.siparisler[i].adSoyad);
         //var siparisDetayNo = (req.body[i].siparisDetayNo);
      
         console.log(siparisDetayNo);
         const yeniSiparis = new Siparis({
-            adSoyad: req.body[i].adSoyad,
-            urun: req.body[i].urun,
-            urunAciklama: req.body[i].urunAciklama,
-            teslimSekli: req.body[i].teslimSekli,
-            paketleme: req.body[i].paketleme,
-            miktar: req.body[i].miktar,
-            olcuBirimi: req.body[i].olcuBirimi,
-            paraBirimi: req.body[i].paraBirimi,
-            sevkiyatBaslangic: req.body[i].sevkiyatBaslangic,
-            sevkiyatBitis: req.body[i].sevkiyatBitis,
-            odemeTuru: req.body[i].odemeTuru,
-            tasimaSekli: req.body[i].teslimSekli,
-            sektor: req.body[i].sektor,
-            odemeBilgisi: req.body[i].odemeBilgisi,
-            dokumanTuru: req.body[i].dokumanTuru,
-            kopyaAdedi: req.body[i].kopyaAdedi,
-            aciklama: req.body[i].aciklama,
-            faturaFirmasi: req.body[i].faturaFirmasi,
-            aliciFirma: req.body[i].aliciFirma,
-            aciklamalar: req.body[i].aciklamalar,
+            adSoyad: req.body.siparisler[i].adSoyad,
+            urun: req.body.siparisler[i].urun,
+            urunAciklama: req.body.siparisler[i].urunAciklama,
+            teslimSekli: req.body.siparisler[i].teslimSekli,
+            paketleme: req.body.siparisler[i].paketleme,
+            miktar: req.body.siparisler[i].miktar,
+            olcuBirimi: req.body.siparisler[i].olcuBirimi,
+            paraBirimi: req.body.siparisler[i].paraBirimi,
+            sevkiyatBaslangic: req.body.siparisler[i].sevkiyatBaslangic,
+            sevkiyatBitis: req.body.siparisler[i].sevkiyatBitis,
+            odemeTuru: req.body.siparisler[i].odemeTuru,
+            tasimaSekli: req.body.siparisler[i].teslimSekli,
+            sektor: req.body.siparisler[i].sektor,
+            odemeBilgisi: req.body.siparisler[i].odemeBilgisi,
+            dokumanTuru: req.body.siparisler[i].dokumanTuru,
+            kopyaAdedi: req.body.siparisler[i].kopyaAdedi,
+            aciklama: req.body.siparisler[i].aciklama,
+            faturaFirmasi: req.body.siparisler[i].faturaFirmasi,
+            aliciFirma: req.body.siparisler[i].aliciFirma,
+            aciklamalar: req.body.siparisler[i].aciklamalar,
             durum: "Yeni Kayıt",
-            siparisNo: req.body[i].siparisNo,
+            siparisNo: req.body.siparisler[i].siparisNo,
             siparisDetayNo: siparisDetayNo
         })
         yeniSiparis.save()
