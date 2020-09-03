@@ -47,8 +47,12 @@ app.post('/cokluSiparis', (req, res) => {
     console.log("cokluSiparis");
     //const yeniSiparisler = [];
     //console.log(req.body.length);
+    var siparisDetayNo = (req.body[0].siparisDetayNo);
     for(i=0 ; i<req.body.length ; i++){
         console.log(req.body[i].adSoyad);
+        //var siparisDetayNo = (req.body[i].siparisDetayNo);
+     
+        console.log(siparisDetayNo);
         const yeniSiparis = new Siparis({
             adSoyad: req.body[i].adSoyad,
             urun: req.body[i].urun,
@@ -72,13 +76,14 @@ app.post('/cokluSiparis', (req, res) => {
             aciklamalar: req.body[i].aciklamalar,
             durum: "Yeni Kayıt",
             siparisNo: req.body[i].siparisNo,
-            siparisDetayNo: req.body[i].siparisDetayNo
+            siparisDetayNo: siparisDetayNo
         })
         yeniSiparis.save()
         .then(() => {
             
         })
         .catch(err => console.log(err));
+        siparisDetayNo++;
     }
     res.status(201).json({message:'Sipariş kaydedildi.'});
 })
