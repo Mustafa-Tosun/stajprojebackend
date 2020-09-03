@@ -47,8 +47,6 @@ app.post('/siparis', async (req, res) => {
 
 app.post('/cokluSiparis', async (req, res) => {
     console.log("cokluSiparis");
-
-    console.log(req.body);
     var siparisDetayNo = await getEnBuyukSiparisDetayNo();
     siparisDetayNo++;
     for(i=0 ; i<req.body.siparisler.length ; i++){
@@ -75,14 +73,14 @@ app.post('/cokluSiparis', async (req, res) => {
             aciklamalar: req.body.siparisler[i].aciklamalar,
             durum: "Yeni Kayıt",
             siparisNo: req.body.siparisler[i].siparisNo,
-            siparisDetayNo: (siparisDetayNo) + i
+            siparisDetayNo: siparisDetayNo
         })
         yeniSiparis.save()
         .then(() => {
             
         })
         .catch(err => console.log(err));
-        //siparisDetayNo++;
+        siparisDetayNo++;
     }
     res.status(201).json({message:'Sipariş kaydedildi.'});
 })
