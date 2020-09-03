@@ -43,8 +43,12 @@ app.post('/siparis', async (req, res) => {
     .catch(err => console.log(err));
 })
 
-app.delete('/siparisSil/:siparisDetayNo', (req, res) => {
-    var sDetayNo = parseInt(req.params.siparisDetayNo);
+app.delete('/siparisSil/:index', async (req, res) => {
+    var sDetayNo;
+    await Siparis.find({})
+    .then(siparis =>  {
+        sDetayNo = siparis[req.params.index].siparisDetayNo;
+    })
     Siparis.findOneAndDelete({siparisDetayNo: {$gte:sDetayNo} }, function (err, docs) { 
         if (err){ 
             console.log(err);
@@ -54,11 +58,15 @@ app.delete('/siparisSil/:siparisDetayNo', (req, res) => {
             console.log("Silinen Sipariş: ", docs);
             return res.status(200).json({message:'Sipariş Silindi.'});
         } 
-    }); 
+    });
 })
 
-app.put('/siparisDuzenle/:siparisDetayNo', (req, res) => {
-    var sDetayNo = parseInt(req.params.siparisDetayNo);
+app.put('/siparisDuzenle/:index', async (req, res) => {
+    var sDetayNo;
+    await Siparis.find({})
+    .then(siparis => {
+        sDetayNo = (siparis[req.params.index].siparisDetayNo);
+    })
     Siparis.findOneAndUpdate({siparisDetayNo: sDetayNo },{"$set": {
         adSoyad: req.body.adSoyad,
         urun: req.body.urun,
@@ -89,7 +97,7 @@ app.put('/siparisDuzenle/:siparisDetayNo', (req, res) => {
             console.log("Düzenlenen Sipariş: ", docs);
             return res.status(200).json({message:'Sipariş Düzenlendi.'});
         } 
-    }); 
+    });
 })
 
 app.post('/cokluSiparis', async (req, res) => {
