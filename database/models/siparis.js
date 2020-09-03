@@ -91,23 +91,23 @@ const siparisSchema = new Schema({
     timestamps: true
 })
 
-// siparisSchema.statics.findMaxsiparisDetayNo = async function () {
-//     const found = await this.find({}).sort({ siparisDetayNo: -1 }).limit(1);
+siparisSchema.statics.findMaxsiparisDetayNo = async function () {
+    const found = await this.find({}).sort({ siparisDetayNo: -1 }).limit(1);
 
-//     const biggestsiparisDetayNo = found[0].toObject().siparisDetayNo;
-//     return parseInt(biggestsiparisDetayNo, 10);
-// };
+    const biggestsiparisDetayNo = found[0].toObject().siparisDetayNo;
+    return parseInt(biggestsiparisDetayNo, 10);
+};
 
-// siparisSchema.pre("save", async function (next) {
-//     const doc = this;
+siparisSchema.pre("save", async function (next) {
+    const doc = this;
 
-//     //find the biggest
-//     const biggestsiparisDetayNo = await Siparis.findMaxsiparisDetayNo();
+    //find the biggest
+    const biggestsiparisDetayNo = await Siparis.findMaxsiparisDetayNo();
 
-//     doc.siparisDetayNo = biggestsiparisDetayNo + 1;
+    doc.siparisDetayNo = biggestsiparisDetayNo + 1;
 
-//     next();
-// });
+    next();
+});
 
 const Siparis = mongoose.model('Siparis', siparisSchema, 'Siparisler');
 
