@@ -70,8 +70,8 @@ app.post('/cokluSiparis', (req, res) => {
             aliciFirma: req.body[i].aliciFirma,
             aciklamalar: req.body[i].aciklamalar,
             durum: "Yeni Kayıt",
-            siparisNo: req.body[i].siparisNo
-            //siparisDetayNo: req.body[i].siparisDetayNo
+            siparisNo: req.body[i].siparisNo,
+            siparisDetayNo: req.body[i].siparisDetayNo
         })
         yeniSiparis.save()
         .then(() => {
