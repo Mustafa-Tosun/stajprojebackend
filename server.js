@@ -11,6 +11,7 @@ app.use(express.json());
 
 const Siparis = require('./database/models/siparis');
 app.post('/siparis', (req, res) => {
+    var siparisDetayNo = getEnBuyukSiparisDetayNo()+1;
     const yeniSiparis = new Siparis({
         adSoyad: req.body.adSoyad,
         urun: req.body.urun,
@@ -23,7 +24,7 @@ app.post('/siparis', (req, res) => {
         sevkiyatBaslangic: req.body.sevkiyatBaslangic,
         sevkiyatBitis: req.body.sevkiyatBitis,
         odemeTuru: req.body.odemeTuru,
-        tasimaSekli: req.body.teslimSekli,
+        tasimaSekli: req.body.tasimaSekli,
         sektor: req.body.sektor,
         odemeBilgisi: req.body.odemeBilgisi,
         dokumanTuru: req.body.dokumanTuru,
@@ -34,7 +35,7 @@ app.post('/siparis', (req, res) => {
         aciklamalar: req.body.aciklamalar,
         durum: "Yeni Kayıt",
         siparisNo: req.body.siparisNo,
-        siparisDetayNo: req.body.siparisDetayNo
+        siparisDetayNo: siparisDetayNo
     })
     yeniSiparis.save()
     .then(() => {
@@ -48,7 +49,7 @@ app.post('/cokluSiparis', (req, res) => {
     //const yeniSiparisler = [];
     //console.log(req.body.length);
     console.log(req.body);
-    var siparisDetayNo = (req.body.siparisler[0].siparisDetayNo);
+    var siparisDetayNo = getEnBuyukSiparisDetayNo()+1;
     for(i=0 ; i<req.body.siparisler.length ; i++){
         console.log(req.body.siparisler[i].adSoyad);
         //var siparisDetayNo = (req.body[i].siparisDetayNo);
@@ -66,7 +67,7 @@ app.post('/cokluSiparis', (req, res) => {
             sevkiyatBaslangic: req.body.siparisler[i].sevkiyatBaslangic,
             sevkiyatBitis: req.body.siparisler[i].sevkiyatBitis,
             odemeTuru: req.body.siparisler[i].odemeTuru,
-            tasimaSekli: req.body.siparisler[i].teslimSekli,
+            tasimaSekli: req.body.siparisler[i].tasimaSekli,
             sektor: req.body.siparisler[i].sektor,
             odemeBilgisi: req.body.siparisler[i].odemeBilgisi,
             dokumanTuru: req.body.siparisler[i].dokumanTuru,
@@ -77,14 +78,14 @@ app.post('/cokluSiparis', (req, res) => {
             aciklamalar: req.body.siparisler[i].aciklamalar,
             durum: "Yeni Kayıt",
             siparisNo: req.body.siparisler[i].siparisNo,
-            siparisDetayNo: siparisDetayNo
+            siparisDetayNo: (siparisDetayNo) + i
         })
         yeniSiparis.save()
         .then(() => {
             
         })
         .catch(err => console.log(err));
-        siparisDetayNo++;
+        //siparisDetayNo++;
     }
     res.status(201).json({message:'Sipariş kaydedildi.'});
 })
@@ -152,13 +153,19 @@ app.get('/enBuyukSiparisNo', async (req, res) => {
     return res.json({enBuyukSiparisNo: temp});
 })
 
-app.get('/enBuyukSiparisDetayNo', async (req, res) => {
-    const found = await Siparis.find({}).sort({ siparisDetayNo: -1 }).limit(1);
+// app.get('/enBuyukSiparisDetayNo', async (req, res) => {
+//     const found = await Siparis.find({}).sort({ siparisDetayNo: -1 }).limit(1);
+//     const biggestsiparisDetayNo = found[0].toObject().siparisDetayNo;
+//     var temp = parseInt(biggestsiparisDetayNo, 10);
+//     return res.json({enBuyukSiparisDetayNo: temp});
+// })
+
+function getEnBuyukSiparisDetayNo(){
+    const found = Siparis.find({}).sort({ siparisDetayNo: -1 }).limit(1);
     const biggestsiparisDetayNo = found[0].toObject().siparisDetayNo;
     var temp = parseInt(biggestsiparisDetayNo, 10);
-    return res.json({enBuyukSiparisDetayNo: temp});
-})
-
+    return temp;
+}
 
 
 app.get('/tempSiparisler', (req, res) => {
